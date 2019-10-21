@@ -1,10 +1,14 @@
-function Stack() {
+function Stack(capacity) {
+    this.capacity = capacity || Infinity;
     this.dataStore = [];
     this.top = 0;
 }
 
 Stack.prototype.push = function(element) {
-    return this.dataStore[this.top++] = element;
+    if (this.top < this.capacity) {
+        return this.dataStore[this.top++] = element;
+    }
+    return 'Max capacity already reached. Remove element before adding a new one.';
 }
 
 Stack.prototype.peek = function() {
@@ -12,7 +16,15 @@ Stack.prototype.peek = function() {
 }
 
 Stack.prototype.pop = function() {
-    return this.dataStore[--this.top];
+    if (this.top === 0) {
+        return 'No element inside the stack. Add element before poping.'
+    }
+    var value = this.dataStore[--this.top];
+    delete this._storage[this._count];
+    if (this.top < 0) {
+        this.top = 0;
+    }
+    return value;
 }
 
 Stack.prototype.clear = function() {
